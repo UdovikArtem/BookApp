@@ -2,7 +2,13 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.androidx.navigation.safeargs.kotlin)
+    alias(libs.plugins.dagger.hilt.android)
 }
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.dagger.hilt.android'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     namespace 'com.example.bookapp'
@@ -37,7 +43,17 @@ android {
     }
 }
 
+hilt {
+    enableAggregatingTask = true
+}
+
 dependencies {
+    kaptTest libs.hilt.compiler
+    testImplementation libs.hilt.android.testing
+    kaptAndroidTest libs.hilt.compiler
+    androidTestImplementation libs.hilt.android.testing
+    kapt libs.hilt.compiler
+    implementation libs.hilt.android
     implementation libs.androidx.navigation.fragment.ktx
     implementation libs.androidx.navigation.ui.ktx
     implementation libs.androidx.core.ktx
@@ -48,4 +64,8 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.espresso.core
+}
+
+kapt {
+    correctErrorTypes true
 }
